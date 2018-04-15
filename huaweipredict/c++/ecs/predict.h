@@ -1,0 +1,72 @@
+#ifndef __ROUTE_H__
+#define __ROUTE_H__
+
+#include "lib_io.h"
+#include <string>
+#include <vector>
+
+
+#define MAX_CYCLE 3
+#define MAX_FLAVOR_NUM 15
+#define SAMPLE_NUM 10
+
+
+using namespace std;
+
+struct flavortype{
+	string name;
+	int cpu_num;
+	int Mem_size;
+	int predict_num;
+	
+	flavortype(){};
+};
+
+struct dataIterm{
+	string id;
+	string date;
+	string flavor;
+	string time;
+ 
+	dataIterm() {}
+	 
+	bool operator!= (const dataIterm & other) {
+		return this->date != other.date;
+	}
+};
+
+ struct dateData {
+	string date;
+	vector<vector <string> >  flavortimelist;
+	vector<vector<int> > flavornumlist;
+	vector<int> small_size, mid_size, large_size, vlarge_size;
+
+	dateData() {}
+	dateData(const string& date, int size=15) {
+		this->date = date;
+		this->flavortimelist.resize(size);
+		this->flavornumlist.resize(size);
+	}
+};
+
+struct sample {
+	 vector<vector<double>> data;
+	 sample(){}
+ };
+
+struct hostM {
+	 double rcpu_num;
+	 double rMem_size;
+	 vector<int> vmflavor;
+
+	 hostM() {};
+	 hostM(int phsM_cpu_num, int phsM_Mem_size) {
+		 this->rcpu_num = phsM_cpu_num;
+		 this->rMem_size = phsM_Mem_size;
+		 this->vmflavor.resize(15);
+	 }
+ };
+int predict_time_diff(string begin,string end);
+void predict_server(char * info[MAX_INFO_NUM], char * data[MAX_DATA_NUM], int data_num, char * filename);
+	
+#endif
